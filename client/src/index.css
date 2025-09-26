@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dark-bg: hsl(240, 14%, 5%);
+  --darker: hsl(240, 14%, 3%);
+  --card-bg: hsl(240, 10%, 7%);
+  --accent-purple: hsl(265, 100%, 61%);
+  --accent-pink: hsl(327, 100%, 72%);
+  --accent-blue: hsl(204, 100%, 72%);
+  --text-light: hsl(240, 5%, 90%);
+  --text-muted: hsl(240, 4%, 65%);
+  --text-error: hsl(0, 100%, 74%);
+  --card-border: hsl(253, 100%, 72%, 0.15);
+  --background: var(--dark-bg);
+  --foreground: var(--text-light);
+  --card: var(--card-bg);
+  --card-foreground: var(--text-light);
+  --popover: var(--card-bg);
+  --popover-foreground: var(--text-light);
+  --primary: var(--accent-purple);
+  --primary-foreground: hsl(240, 14%, 5%);
+  --secondary: var(--accent-pink);
+  --secondary-foreground: hsl(240, 14%, 5%);
+  --muted: var(--card-bg);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--accent-blue);
+  --accent-foreground: hsl(240, 14%, 5%);
+  --destructive: var(--text-error);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: var(--card-border);
+  --input: var(--card-bg);
+  --ring: var(--accent-purple);
+  --radius: 0.75rem;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-body antialiased bg-background text-foreground;
+  }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-in { 
+  animation: slideIn 0.6s ease-out; 
+}
+
+.animate-fade-in { 
+  animation: fadeIn 0.4s ease-out; 
+}
+
+/* Custom scrollbar styles for horizontal filters */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth hover scaling */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+.slider-container {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slider-container::-webkit-scrollbar { 
+  display: none; 
+}
+
+.slider-slide { 
+  scroll-snap-align: start; 
+}
