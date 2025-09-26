@@ -52,6 +52,7 @@ const TextToImageGenerator = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [styleDropdownOpen, setStyleDropdownOpen] = useState(false);
+  const [placeDropdownOpen, setPlaceDropdownOpen] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
   const createdUrlsRef = useRef<string[]>([]);
@@ -63,12 +64,18 @@ const TextToImageGenerator = () => {
     "realistic", "cinematic", "cyberpunk", "anime", "manga", "ghibli", "comic", "impressionist", "pixel art", "abstract", "sketch", "fantasy", "3d render", "watercolor", "oil painting", "pop art", "steampunk", "digital painting", "cartoon", "gothic", "isometric", "sci-fi", "minimalist", "vaporwave", "synthwave", "dystopian", "utopian", "art deco", "art nouveau", "cubist", "surrealist", "futuristic", "retrowave", "neo-expressionist", "street art", "graffiti", "mural", "mosaic", "stained glass", "geometric", "abstract expressionism", "pointillism", "charcoal", "pencil sketch", "ink wash", "line art", "pop surrealism", "low poly", "voxel art", "vector art", "comic book", "cartoon modern", "traditional painting", "concept art", "matte painting", "photo realistic", "hdr photography", "vintage photograph", "blueprint", "schematic", "technical drawing", "infographic", "diagrammatic", "hieroglyphic", "cave painting", "tribal art", "african art", "asian art", "western art", "mythological", "horror", "gore", "macabre", "dark fantasy", "sci-fi horror", "post-apocalyptic", "urbex photography", "wildlife photography", "landscape photography", "portraiture", "still life", "botanical illustration", "zoological illustration", "anatomical drawing", "architectural sketch", "cityscape", "seascape", "space art", "astrophotography", "underwater art", "macro photography", "microscopic art", "infrared art", "light painting", "smoke art", "sand art", "watercolour sketch", "acrylic painting", "gouache", "pastel", "fauvism", "expressionism", "suprematism", "constructivism", "dadaism", "minimalism", "op art", "kinetic art", "photorealism", "hyperrealism", "romanticism", "baroque", "rococo", "neoclassicism", "pre-raphaelite", "symbolism", "divisionism", "luminism", "tonalism", "hudson river school", "ashcan school", "precisionism", "regionalism", "social realism", "magic realism", "fantastic realism", "naive art", "outsider art", "folk art", "self-taught art", "graffito", "body art", "land art", "environmental art", "performance art", "video art", "sound art", "bio art", "light art", "textile art", "glass art", "ceramic art", "jewelry design", "fashion illustration", "industrial design", "automotive art", "architectural visualization", "scientific illustration", "medical illustration", "forensic art", "color manga", "color sketch", "logo", "icon", "ads", "cyberpunk watercolor", "anime gothic", "pixel noir", "steampunk fantasy", "retro futurism", "sci-fi impressionism", "minimalist dystopian", "vaporwave botanical", "graffiti pop art", "mythological surrealism", "glitch art", "fractal art", "ai collage", "neon holographic", "augmented reality style", "liquid chrome", "synth organic", "bioluminescent art", "data visualization art", "dreamcore", "weirdcore", "celestial fantasy", "underwater cyberpunk", "dark fairytale", "post-apocalyptic nature", "interdimensional travel", "time-shifted art", "ethereal portraits", "frozen wasteland", "solar punk", "parallel universe art", "cyberpunk origami", "glass neon", "digital stained glass", "astral geometry", "chromatic smoke art", "dreamy pastel noir", "cyber samurai", "floating island fantasy", "frozen neon", "underwater steampunk", "shattered reality", "celestial watercolor", "paper cutout 3d", "neon tribal", "glass forest", "liquid metal", "mechanical nature", "holographic portraits", "luminous ink wash", "dark academia", "techno graffiti", "zero gravity cities", "fire & ice duality", "dreams in glass", "cosmic mosaic", "biomechanical horror", "cyberpunk jungle", "time fracture art", "rainbow mist", "ghost light", "fractal forest", "golden hour fantasy", "underwater cosmos", "tech bloom", "ancient tech ruins", "arcane circuits", "neon rain", "infinite spiral worlds", "shadow light contrast", "electric ice sculptures", "mythic bioluminescence", "paint splash universe", "shimmering desert", "firefly nights", "wired dreams", "ocean punk", "ai surrealism", "blood moon fantasy", "steam & stars", "ethereal silk art", "light beam architecture", "glass ocean", "rainbow circuitry", "toxic beauty", "shadow puppet art", "neon sandstorm", "crystal punk", "mirror world", "paint drip surrealism", "prismatic shadows", "stormlight fantasy", "electric aurora", "techno mythos", "molten core art", "lunar glass cities", "chromatic steampunk", "floating lantern realms", "laser horizon", "frozen galaxy", "quantum dreams", "eclipse realism", "bio-steel creatures", "woven light art", "retro arcade pixelism", "fogpunk", "prism rain", "cyber desert mirage", "blood crystal landscapes", "lava flow cities", "sky tunnels", "neon coral reef", "shattered moon", "starfall skies", "silver mist realism", "deep sea mecha", "aurora gothic", "cosmic origami", "jungle mech fusion", "electric feathered beasts", "hologram graffiti", "toxic jungle", "bioluminescent desert", "infinite mirror maze", "steamstorm skies", "pixel noir fantasy", "shattered light art", "solar flare city", "mecha samurai dreams", "icebound neon forest", "time loop art", "glass volcano", "mechanical butterfly garden", "asteroid colony realism", "shadow neon fusion", "blood rain dystopia", "luminous cave worlds", "neon storm ocean", "cloudpunk", "dragonpunk", "glitchpunk"
   ];
 
+  // Places comprehensive list
+  const places = [
+    "beach", "mountain", "forest", "city", "desert", "ocean", "lake", "river", "waterfall", "cave", "garden", "park", "countryside", "valley", "hill", "meadow", "field", "island", "volcano", "canyon", "jungle", "rainforest", "savanna", "arctic", "tundra", "glacier", "cliff", "lighthouse", "bridge", "castle", "palace", "temple", "church", "mosque", "cathedral", "monastery", "ruins", "ancient city", "modern city", "skyscraper", "downtown", "suburban", "village", "town", "marketplace", "street", "alley", "square", "plaza", "courtyard", "rooftop", "balcony", "window", "doorway", "interior", "living room", "bedroom", "kitchen", "bathroom", "library", "office", "studio", "workshop", "garage", "basement", "attic", "corridor", "staircase", "elevator", "restaurant", "cafe", "bar", "hotel", "hospital", "school", "university", "museum", "gallery", "theater", "cinema", "concert hall", "stadium", "gym", "spa", "shop", "mall", "supermarket", "warehouse", "factory", "farm", "barn", "stable", "greenhouse", "laboratory", "space station", "spaceship", "underwater", "submarine", "airplane", "train", "car", "boat", "yacht", "pier", "harbor", "port", "airport", "train station", "subway", "tunnel", "road", "highway", "pathway", "sidewalk", "playground", "amusement park", "zoo", "aquarium", "botanical garden", "cemetery", "graveyard", "monument", "statue", "fountain", "pond", "pool", "hot spring", "spa resort", "resort", "cabin", "tent", "campsite", "treehouse", "windmill", "tower", "fortress", "bunker", "underground", "mine", "quarry", "construction site", "demolition site", "abandoned building", "ghost town", "post-apocalyptic", "dystopian city", "utopian city", "futuristic city", "cyberpunk city", "steampunk city", "medieval town", "ancient rome", "ancient greece", "ancient egypt", "ancient china", "ancient japan", "wild west", "pirate ship", "viking village", "fairy tale castle", "enchanted forest", "magical realm", "fantasy world", "alien planet", "mars", "moon", "space", "nebula", "galaxy", "black hole", "wormhole", "parallel dimension", "virtual reality", "digital world", "cyberspace", "matrix", "dreamscape", "nightmare", "heaven", "hell", "purgatory", "limbo", "void", "nowhere"
+  ];
+
   // Settings state
   const [selectedModel, setSelectedModel] = useState('flux');
   const [aspectRatio, setAspectRatio] = useState('1:1');
   const [customWidth, setCustomWidth] = useState('1024');
   const [customHeight, setCustomHeight] = useState('1024');
   const [style, setStyle] = useState('realistic');
+  const [place, setPlace] = useState('');
   const [negativePrompt, setNegativePrompt] = useState('');
   const [seed, setSeed] = useState<string>('');
   const [useRandomSeed, setUseRandomSeed] = useState(true);
@@ -165,7 +172,15 @@ const TextToImageGenerator = () => {
 
   // Helper function to generate a single image
   const generateSingleImage = async (promptToUse: string, imageIndex: number): Promise<GeneratedImage> => {
-    let enhancedPrompt = `${promptToUse}, ${style} style`;
+    let enhancedPrompt = promptToUse;
+    
+    // Add place if selected
+    if (place.trim()) {
+      enhancedPrompt += ` in ${place}`;
+    }
+    
+    // Add style
+    enhancedPrompt += `, ${style} style`;
     
     // Add negative prompt if provided
     if (negativePrompt.trim()) {
@@ -706,6 +721,57 @@ const TextToImageGenerator = () => {
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Place */}
+            <div className="space-y-2">
+              <Label htmlFor="place-select">Place/Location</Label>
+              <Popover open={placeDropdownOpen} onOpenChange={setPlaceDropdownOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={placeDropdownOpen}
+                    className="w-full justify-between"
+                    data-testid="select-place"
+                  >
+                    {place
+                      ? place.charAt(0).toUpperCase() + place.slice(1)
+                      : "Select place..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full p-0">
+                  <Command>
+                    <CommandInput placeholder="Search places..." />
+                    <CommandEmpty>No place found.</CommandEmpty>
+                    <CommandList className="max-h-60">
+                      <CommandGroup>
+                        {places.map((placeOption) => (
+                          <CommandItem
+                            key={placeOption}
+                            value={placeOption}
+                            onSelect={(currentValue) => {
+                              setPlace(currentValue === place ? "" : currentValue);
+                              setPlaceDropdownOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={`mr-2 h-4 w-4 ${
+                                place === placeOption ? "opacity-100" : "opacity-0"
+                              }`}
+                            />
+                            {placeOption.charAt(0).toUpperCase() + placeOption.slice(1)}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <p className="text-xs text-muted-foreground">
+                Choose a location or setting for your image
+              </p>
             </div>
 
             {/* Style */}
